@@ -16,6 +16,7 @@ public record DadosCadastroMedico(
         @Email // validações de email
         String email,
         @NotBlank
+        @Pattern(regexp = "\\d{8}")
         String telefone,
         @NotBlank
         @Pattern(regexp = "\\d{4,6}") // expressão regular: tem que ser digitos com 4 a 6 números
