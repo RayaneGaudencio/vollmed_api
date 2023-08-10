@@ -1,5 +1,6 @@
 package med.voll.api.medico;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,5 +20,9 @@ public record DadosCadastroMedico(
         String crm,
         @NotNull
         Especialidade especialidade,
+
+        @NotNull @Valid // para validar também o dados endereço
         DadosEndereco endereco) {
 }
+
+

@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import med.voll.api.endereco.Endereco;
 import med.voll.api.medico.DadosCadastroMedico;
 import med.voll.api.medico.Medico;
@@ -22,7 +23,7 @@ public class MedicoController {
     // DTO - Data transfer object
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody DadosCadastroMedico dados) { // @RequestBody para resgatar o corpo da requisição
+    public void cadastrar(@RequestBody @Valid DadosCadastroMedico dados) { // @RequestBody para resgatar o corpo da requisição, @Valid para o bean validation executar as operações em cima do DTO DadosCadastroMedico
             repository.save(new Medico(dados)); // repository fica responsável por salvar
     }
 
