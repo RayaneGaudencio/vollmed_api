@@ -39,5 +39,11 @@ public class MedicoController {
         medico.atualizarInformacoes(dados);
 ;   }
 
+    @DeleteMapping("/{id}") // parâmetro dinâmico
+    @Transactional
+    public void excluir(@PathVariable Long id) { // anotação que indica que a variável é do caminho da url
+        repository.deleteById(id);
+    }
+
 
 }
