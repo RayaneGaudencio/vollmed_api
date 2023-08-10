@@ -26,7 +26,7 @@ public class MedicoController {
 
     @GetMapping
     public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        return repository.findAll(paginacao).map(DadosListagemMedico::new); // repository extende jpa repository que pega todos os dados de médico, mas dá um
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new); // repository extende jpa repository que pega todos os dados de médico, mas dá um
         // erro pois não queremos todos os dados. então, faz se o map do novo Record criado para apenas esses dados
         // o método findall() possui uma sobrecarga que recebe o Pageable
         // @PageableDefault(size = 10,  sort = {"nome"}) se não for informado os parâmetros de paginação, exibir por padrão 10, ordenados pelo nome
@@ -42,7 +42,8 @@ public class MedicoController {
     @DeleteMapping("/{id}") // parâmetro dinâmico
     @Transactional
     public void excluir(@PathVariable Long id) { // anotação que indica que a variável é do caminho da url
-        repository.deleteById(id);
+        var medico = repository.getReferenceById(id);
+        medico.excluir();
     }
 
 
