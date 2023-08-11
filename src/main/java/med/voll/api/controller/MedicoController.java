@@ -57,5 +57,10 @@ public class MedicoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}") // parâmetro dinâmico
+    public ResponseEntity detalhar(@PathVariable Long id) { // anotação que indica que a variável é do caminho da url
+        var medico = repository.getReferenceById(id);
 
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
+    }
 }
