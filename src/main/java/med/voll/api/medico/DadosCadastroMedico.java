@@ -23,7 +23,6 @@ public record DadosCadastroMedico(
         String crm,
         @NotNull
         Especialidade especialidade,
-
         @NotNull @Valid // para validar também o dados endereço
         DadosEndereco endereco) {
 }
