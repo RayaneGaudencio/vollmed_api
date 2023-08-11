@@ -13,9 +13,9 @@ public class SecurityConfigurations {
 
     @Bean // anotação para devolver um objeto para o Spring
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable() // desativa a proteção contra csrf, pois o próprio JWT já faz
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // sessionManagent para definir o tipo de sessão, como é uma api rest deve ser stateless
-                .and().build();
+        return http.csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
 
 }
