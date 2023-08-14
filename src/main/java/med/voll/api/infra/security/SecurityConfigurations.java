@@ -25,10 +25,11 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/login").permitAll() // permite que todos os usuários enviem requisições para login
-                .anyRequest().authenticated() // todos os outros deverão ser autenticados
-                .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // define a ordem dos filtros
+                .authorizeHttpRequests(req -> {
+                    req.requestMatchers(HttpMethod.POST, "/login").permitAll(); // permite que todos os usuários enviem requisições para login
+                    req.anyRequest().authenticated(); // todos os outros deverão ser autenticados
+                })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // define a ordem dos filtros
                 .build();
     }
 
