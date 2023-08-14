@@ -2,6 +2,7 @@ package med.voll.api.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,9 +18,12 @@ public class SecurityConfigurations {
 
     @Bean // anotação para devolver um objeto para o Spring
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
+        return http.csrf().disable()
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll() // permite que todos os usuários enviem requisições para login
+                .anyRequest().authenticated() // todos os outros deverão ser autenticados
+                .and().build();
     }
 
     // método que ensina ao spring como criar um objeto AuthenticationManager
