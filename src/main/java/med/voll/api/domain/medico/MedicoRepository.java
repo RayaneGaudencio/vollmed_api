@@ -27,4 +27,13 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
             limit 1
             """) // os dois pontos antes da especialidade quer dizer que é o parâmetro do método, que são exatamente iguais
     Medico escolherMedicoAleatorioLivreNaData(Especialidade especialidade, LocalDateTime data);
+
+
+    @Query("""
+            select m.ativo
+            from Medico m
+            where
+            m.id = :id
+            """)
+    Boolean findAtivoById(Long id);
 }
