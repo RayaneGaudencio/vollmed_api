@@ -27,6 +27,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll(); // permite que todos os usuários enviem requisições para login
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll(); // qualquer coisa depois do ** tá liberado
                     req.anyRequest().authenticated(); // todos os outros deverão ser autenticados
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // define a ordem dos filtros
