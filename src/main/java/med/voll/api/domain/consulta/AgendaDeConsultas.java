@@ -25,7 +25,7 @@ public class AgendaDeConsultas {
     @Autowired
     private List<ValidadorAgendamentoDeConsulta> validadores; // Spring automaticamente procura todas as classes que implementam e injeta na lista
 
-    public void agendar(DadosAgendamentoConsulta dados) {
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
         // checagem dos dados
         if (!pacienteRepository.existsById(dados.idPaciente())) { // o repository possui o método que retorna se existe esse id no banco
             throw new ValidacaoException("Id do paciente informado não existe");
@@ -39,13 +39,15 @@ public class AgendaDeConsultas {
 
         var paciente = pacienteRepository.findById(dados.idPaciente()).get(); // usando repository pois nos dados vem apenas o id do paciente
         var medico = escolherMedico(dados);
-        var consulta = new Consulta(null, medico, paciente, dados.data());
 
         if (medico == null) {
             throw new ValidacaoException("Não há médico disponível nesta data.");
         }
 
+        var consulta = new Consulta(null, medico, paciente, dados.data());
+
         consultaRepository.save(consulta);
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
